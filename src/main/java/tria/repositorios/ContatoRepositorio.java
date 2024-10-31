@@ -1,8 +1,7 @@
 package tria.repositorios;
 
-import lombok.Data;
 import lombok.var;
-import tria.entidades.Login;
+import tria.entidades.Contato;
 import tria.infraestrutura.DatabaseConfig;
 
 import java.sql.SQLException;
@@ -10,14 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class LoginRepositorio implements _RepositorioCrud<Login>{
+public class ContatoRepositorio implements _RepositorioCrud<Contato> {
     @Override
-    public void cadastrar(Login entidade) {
+    public void cadastrar(Contato entidade) {
         try {
             var conn = DatabaseConfig.getConnection();
-            var query = "INSERT INTO T_LOGIN (SENHA) VALUES (?)";
+            var query = "INSERT INTO T_CONTATO (EMAIL, TELEFONE) VALUES (?, ?)";
             var stmt = conn.prepareStatement(query);
-            stmt.setString(1, entidade.getSenha());
+            stmt.setString(1, entidade.getEmail());
+            stmt.setString(2, entidade.getTelefone());
             stmt.executeUpdate();
             stmt.close();
             conn.close();
@@ -28,13 +28,14 @@ public class LoginRepositorio implements _RepositorioCrud<Login>{
     }
 
     @Override
-    public void atualizar(Login entidade, int id) {
+    public void atualizar(Contato entidade, int id) {
         try {
             var conn = DatabaseConfig.getConnection();
-            var query = "UPDATE T_LOGIN SET SENHA = ? WHERE ID_LOGIN = ?";
+            var query = "UPDATE T_CONTATO SET EMAIL = ?, TELEFONE = ? WHERE ID_CONTATO = ?";
             var stmt = conn.prepareStatement(query);
-            stmt.setString(1, entidade.getSenha());
-            stmt.setInt(2, id);
+            stmt.setString(1, entidade.getEmail());
+            stmt.setString(2, entidade.getTelefone());
+            stmt.setInt(3, id);
             stmt.executeUpdate();
             stmt.close();
             conn.close();
@@ -48,31 +49,31 @@ public class LoginRepositorio implements _RepositorioCrud<Login>{
     public void remover(int id) {
         try {
             var conn = DatabaseConfig.getConnection();
-            var query = "DELETE FROM T_LOGIN WHERE ID_LOGIN = ?";
+            var query = "DELETE FROM T_CONTATO WHERE ID_CONTATO = ?";
             var stmt = conn.prepareStatement(query);
             stmt.setInt(1, id);
-            stmt.executeUpdate();
             stmt.close();
             conn.close();
         }
-        catch (Exception e) {
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public Optional<Login> buscarPorId(int id) {
-        Optional<Login> login = Optional.empty();
+    public Optional<Contato> buscarPorId(int id) {
+        Optional<Contato> contato = Optional.empty();
         try {
             var conn = DatabaseConfig.getConnection();
-            var query = "SELECT * FROM T_LOGIN WHERE ID_LOGIN = ?";
+            var query = "SELECT * FROM T_CONTATO WHERE ID_CONTATO = ?";
             var stmt = conn.prepareStatement(query);
             stmt.setInt(1, id);
             var rs = stmt.executeQuery();
             if (rs.next()) {
-                var _id = rs.getInt("ID_LOGIN");
-                var senha = rs.getString("SENHA");
-                login = Optional.of(new Login(_id, senha));
+                var _id = rs.getInt("ID_CONTATO");
+                var email = rs.getString("EMAIL");
+                var telefone = rs.getString("TELEFONE");
+                contato = Optional.of(new Contato(_id, email, telefone));
             }
             rs.close();
             stmt.close();
@@ -81,22 +82,22 @@ public class LoginRepositorio implements _RepositorioCrud<Login>{
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return login;
+        return contato;
     }
 
     @Override
-    public ArrayList<Login> listar() {
-        var logins = new ArrayList<Login>();
+    public List<Contato> listar() {
+        var contatos = new ArrayList<Contato>();
         try {
             var conn = DatabaseConfig.getConnection();
-            var query = "SELECT * FROM T_LOGIN";
+            var query = "SELECT * FROM T_CONTATO";
             var stmt = conn.prepareStatement(query);
             var rs = stmt.executeQuery();
-
             while (rs.next()) {
-                var id = rs.getInt("ID_LOGIN");
-                var senha = rs.getString("SENHA");
-                logins.add(new Login(id, senha));
+                var _id = rs.getInt("ID_CONTATO");
+                var email = rs.getString("EMAIL");
+                var telefone = rs.getString("TELEFONE");
+                contatos.add(new Contato(_id, email, telefone));
             }
             rs.close();
             stmt.close();
@@ -105,6 +106,6 @@ public class LoginRepositorio implements _RepositorioCrud<Login>{
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return logins;
+        return contatos;
     }
 }
