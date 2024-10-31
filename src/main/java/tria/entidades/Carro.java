@@ -13,4 +13,13 @@ public class Carro extends _EntidadeBase{
     private int ano;
     private double quilometragem;
     private Usuario usuario;
+
+    public Carro(int id, String placa, String modelo, String marca, int ano, double quilometragem) {
+        super(id);
+        this.placa = placa;
+        this.modelo = modelo;
+        this.marca = marca;
+        this.ano = ano;
+        this.quilometragem = quilometragem;
+    }
 }

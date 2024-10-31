@@ -1,8 +1,10 @@
 package tria;
 
+import lombok.var;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+import tria.repositorios.LoginRepositorio;
 
 import java.io.IOException;
 import java.net.URI;
@@ -40,8 +42,6 @@ public class Main {
                 + "%s%nHit Ctrl-C to stop it...", BASE_URI));
         System.in.read();
         server.stop();
-
-
     }
 }
 

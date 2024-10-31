@@ -14,4 +14,11 @@ public class Diagnostico extends _EntidadeBase{
     private double orcamento;
     private LocalDate dataEmissao;
     private Carro carro;
+
+    public Diagnostico(int id, String problema, double orcamento, LocalDate dataEmissao) {
+        super(id);
+        this.problema = problema;
+        this.orcamento = orcamento;
+        this.dataEmissao = dataEmissao;
+    }
 }

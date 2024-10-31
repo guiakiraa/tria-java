@@ -19,4 +19,12 @@ public class Usuario extends _EntidadeBase{
     private Login login;
     private Contato contato;
     private List<Endereco> enderecos = new ArrayList<>();
+
+    public Usuario(int id, String nome, String cpf, String sexo, LocalDate dataNascimento) {
+        super(id);
+        this.nome = nome;
+        this.cpf = cpf;
+        this.sexo = sexo;
+        this.dataNascimento = dataNascimento;
+    }
 }
