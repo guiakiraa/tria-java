@@ -1,5 +1,6 @@
 package tria.repositorios;
 
+
 import lombok.var;
 import tria.entidades.Diagnostico;
 import tria.infraestrutura.DatabaseConfig;

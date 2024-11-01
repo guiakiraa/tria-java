@@ -4,7 +4,7 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import tria.entidades.Login;
-import tria.repositorios.LoginRepositorio;
+import tria.servicos.LoginServico;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,32 +12,32 @@ import java.util.Optional;
 @Path("login")
 public class LoginResource {
 
-    private final LoginRepositorio loginRepositorio = new LoginRepositorio();
+    private final LoginServico loginServico = new LoginServico();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Login> getLogins() {
-        return loginRepositorio.listar();
+        return loginServico.Listar();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLoginById(@PathParam("id") int id) {
-        Optional<Login> login = loginRepositorio.buscarPorId(id);
-        if (login != null) {
-            return Response.ok(login).build();
+        Optional<Login> login = loginServico.BuscarPorId(id);
+        if (login.isPresent()) {
+            return Response.ok(login.get()).build();
         } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity("Login não encontrado").build();
         }
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addTarefa(Login login) {
-        loginRepositorio.cadastrar(login);
+    public Response addLogin(Login login) {
+        loginServico.Cadastrar(login);
         return Response.status(Response.Status.CREATED)
-                .entity(loginRepositorio)
+                .entity(loginServico)
                 .build();
     }
 
@@ -46,20 +46,22 @@ public class LoginResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateLogin(@PathParam("id") int id, Login login) {
-        if (loginRepositorio.buscarPorId(id) == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        Optional<Login> _login = loginServico.BuscarPorId(id);
+        if (_login.isPresent()) {
+            loginServico.Atualizar(login, id);
+            return Response.ok(login).build();
         }
-        loginRepositorio.atualizar(login, id);
-        return Response.ok(login).build();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     @DELETE
     @Path("{id}")
     public Response deleteLogin(@PathParam("id") int id) {
-        if (loginRepositorio.buscarPorId(id) == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+        Optional<Login> login = loginServico.BuscarPorId(id);
+        if (login.isPresent()) {
+            loginServico.Deletar(id);
+            return Response.noContent().build();
         }
-        loginRepositorio.remover(id);
-        return Response.noContent().build();
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 }
