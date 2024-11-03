@@ -1,5 +1,7 @@
 package tria;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.jsonb.JsonBindingFeature;
@@ -14,6 +16,8 @@ import java.net.URI;
  *
  */
 public class Main {
+    private static final Logger logger = LogManager.getLogger(Main.class);
+
     // Base URI the Grizzly HTTP server will listen on
     public static final String BASE_URI = "http://localhost:8080/";
 
@@ -39,11 +43,18 @@ public class Main {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        final HttpServer server = startServer();
-        System.out.println(String.format("Jersey app started with endpoints available at "
-                + "%s%nHit Ctrl-C to stop it...", BASE_URI));
-        System.in.read();
-        server.stop();
+        try {
+            logger.info("SISTEMA INICIANDO...");
+            final HttpServer server = startServer();
+            System.out.println(String.format("Jersey app started with endpoints available at "
+                    + "%s%nHit Ctrl-C to stop it...", BASE_URI));
+            System.in.read();
+            server.stop();
+            logger.info("SISTEMA ENCERRADO");
+        }
+        catch (Exception e) {
+            logger.error("Erro inesperado: " + e);
+        }
     }
 }
 
