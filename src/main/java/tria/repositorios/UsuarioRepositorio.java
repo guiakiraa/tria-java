@@ -80,7 +80,7 @@ public class UsuarioRepositorio implements _RepositorioCrud<Usuario>{
                 var sexo = rs.getString("SEXO");
                 var dtNascimentoSql = rs.getDate("DT_NASCIMENTO");
                 var dt_nascimento = dtNascimentoSql.toLocalDate();
-                usuario = Optional.of(new Usuario(_id, cpf, nome, sexo, dt_nascimento));
+                usuario = Optional.of(new Usuario(_id, nome, cpf, sexo, dt_nascimento));
             }
         }
         catch (SQLException e) {
@@ -104,7 +104,7 @@ public class UsuarioRepositorio implements _RepositorioCrud<Usuario>{
                 var sexo = rs.getString("SEXO");
                 var dtNascimentoSql = rs.getDate("DT_NASCIMENTO");
                 var dtNascimento = dtNascimentoSql.toLocalDate();
-                usuarios.add(new Usuario(_id, cpf, nome, sexo,dtNascimento));
+                usuarios.add(new Usuario(_id, nome, cpf, sexo,dtNascimento));
             }
         }
         catch (SQLException e) {
