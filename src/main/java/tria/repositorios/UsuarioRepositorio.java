@@ -15,12 +15,13 @@ public class UsuarioRepositorio implements _RepositorioCrud<Usuario>{
     public void cadastrar(Usuario entidade) {
         try {
             var conn = DatabaseConfig.getConnection();
-            var query = "INSERT INTO T_USUARIO (CPF, NM_USUARIO, SEXO, DT_NASCIMENTO)";
+            var query = "INSERT INTO T_USUARIO (CPF, NM_USUARIO, SEXO, DT_NASCIMENTO) VALUES (?, ?, ?, ?)";
             var stmt = conn.prepareStatement(query);
             stmt.setString(1, entidade.getCpf());
             stmt.setString(2, entidade.getNome());
             stmt.setString(3, entidade.getSexo());
             stmt.setDate(4,  Date.valueOf(entidade.getDataNascimento()));
+            stmt.executeUpdate();
             stmt.close();
             conn.close();
         }
