@@ -13,6 +13,7 @@ public class Log4jLogger {
     private final Logger enderecoLogger;
     private final Logger carroLogger;
     private final Logger diagnosticoLogger;
+    private final Logger revisaoLogger;
 
     public Log4jLogger() {
         this.carroLogger = LogManager.getLogger(Carro.class);
@@ -21,6 +22,7 @@ public class Log4jLogger {
         this.usuarioLogger = LogManager.getLogger(Usuario.class);
         this.enderecoLogger = LogManager.getLogger(Endereco.class);
         this.diagnosticoLogger = LogManager.getLogger(Diagnostico.class);
+        this.revisaoLogger = LogManager.getLogger(Revisao.class);
     };
 
     public void logLoginCadastrado(Login login) {
@@ -112,5 +114,20 @@ public class Log4jLogger {
     }
     public void logContatoBuscadoPorId(Contato contato) {
         contatoLogger.info("Buscado: " + contato);
+    }
+    public void logRevisaoCadastrada(Revisao revisao) {
+        revisaoLogger.info("Cadastrado: " + revisao);
+    }
+    public void logRevisaoAtualizada(Revisao revisao) {
+        revisaoLogger.info("Atualizado: " + revisao);
+    }
+    public void logRevisaoDeletado(Revisao revisao) {
+        revisaoLogger.info("Deletado: " + revisao);
+    }
+    public void logRevisaoBuscadaPorId(Revisao revisao) {
+        revisaoLogger.info("Buscado: " + revisao);
+    }
+    public void logRevisaoListadas(List<Revisao> listaRevisaos) {
+        revisaoLogger.info("Listados: " + listaRevisaos);
     }
 }
