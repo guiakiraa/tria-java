@@ -12,7 +12,7 @@ public class CarroServico {
     private CarroRepositorio carroRepositorio;
     private Log4jLogger logger;
 
-    private static final String PLACA_REGEX = "^[A-Z]{3}-\\d{4}$|^[A-Z]{3}\\d[A-Z]\\d{2}$";
+    private static final String PLACA_REGEX = "^[A-Z]{3}-?\\d{4}$|^[A-Z]{3}\\d[A-Z]\\d{2}$";
 
     public CarroServico() {
         carroRepositorio = new CarroRepositorio();
