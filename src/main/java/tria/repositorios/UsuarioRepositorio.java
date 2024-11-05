@@ -40,6 +40,7 @@ public class UsuarioRepositorio implements _RepositorioCrud<Usuario>{
             stmt.setString(2, entidade.getNome());
             stmt.setString(3, entidade.getSexo());
             stmt.setDate(4, Date.valueOf(entidade.getDataNascimento()));
+            stmt.executeUpdate();
             stmt.close();
             conn.close();
         }
